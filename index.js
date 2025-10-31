@@ -2,7 +2,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const sqlite3 = require('sqlite3').verbose();
-require("./reset_db.js");
 
 //Documentación en https://expressjs.com/en/starter/hello-world.html
 const app = express()
@@ -19,7 +18,7 @@ let db = new sqlite3.Database('./base.sqlite3', (err) => {
     }
     console.log('Conectado a la base de datos SQLite.');
 
-    db.run(`CREATE TABLE IF NOT EXISTS todos (
+    db.run(`CREATE TABLE IF NOT EXISTS todosFinal (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         todo TEXT NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -44,7 +43,7 @@ app.post('/insert', jsonParser, function (req, res) {
         res.status(400).send('Falta información necesaria');
         return;
     }
-    const stmt  =  db.prepare('INSERT INTO todos (todo, created_at) VALUES (?, CURRENT_TIMESTAMP)');
+    const stmt  =  db.prepare('INSERT INTO todosFinal (todo, created_at) VALUES (?, CURRENT_TIMESTAMP)');
 
     stmt.run(todo, (err) => {
         if (err) {
@@ -91,7 +90,7 @@ if (!todo) {
     return res.status(400).json({ error: 'Falta el campo todo' });
   }
 
-  const query = `INSERT INTO todos (todo) VALUES (?)`;
+  const query = `INSERT INTO todosFinal (todo) VALUES (?)`;
 
   db.run(query, [todo], function(err) {
     if (err) {
