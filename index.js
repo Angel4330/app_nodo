@@ -21,7 +21,7 @@ let db = new sqlite3.Database('./base.sqlite3', (err) => {
     db.run(`CREATE TABLE IF NOT EXISTS todos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         todo TEXT NOT NULL,
-        created_at INTEGER
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`, (err) => {
         if (err) {
             console.error(err.message);
@@ -82,6 +82,48 @@ app.post('/login', jsonParser, function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ 'status': 'ok' }));
 })
+
+app.post('/agrega_todo',jsonParser, function (req,res){
+
+const{todo}=req.body;
+
+if (!todo) {
+    return res.status(400).json({ error: 'Falta el campo todo' });
+  }
+
+  const query = `INSERT INTO todos (todo) VALUES (?)`;
+
+  db.run(query, [todo], function(err) {
+    if (err) {
+        return res.status(500).json({ error: err.message });
+    }
+  res.status(201).json({
+    status: 201,
+    mensaje: 'Tarea agregada correctamente',
+    data: {id: this.lastID,
+    todo,
+    created_at: new Date().toISOString()
+    }
+  });
+});
+});
+
+app.get('/ver_todo', function (req, res) {
+
+    const query = `SELECT * FROM todos`;
+
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(200).json({
+            status: 200,
+            mensaje: 'Funciona correctamente',
+            data: rows
+        });
+    }
+);
+});
 
 //Corremos el servidor en el puerto 3000
 const port = 3000;
