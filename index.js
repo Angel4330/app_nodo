@@ -109,7 +109,7 @@ if (!todo) {
 
 app.get('/ver_todo', function (req, res) {
 
-    const query = `SELECT * FROM todos`;
+    const query = `SELECT * FROM todosFinal`;
 
     db.all(query, [], (err, rows) => {
         if (err) {
