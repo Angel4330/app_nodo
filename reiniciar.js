@@ -1,6 +1,6 @@
 // reset_db.js
 const sqlite3 = require("sqlite3").verbose();
-const { open } = require("sqlite");
+
 let db = new sqlite3.Database("./base.sqlite3", (err) => {
   if (err) {
     console.error("❌ Error al conectar con la base de datos:", err.message);
