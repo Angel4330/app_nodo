@@ -35,8 +35,8 @@ const borrarTabla = async () => {
     filename: "base.sqlite3",
     driver: sqlite3.Database
   });
-  await db.exec("DROP TABLE IF EXISTS tareas;");
-  console.log("Tabla 'tareas' eliminada correctamente");
+  await db.exec("DROP TABLE IF EXISTS todos;");
+  console.log("Tabla 'todos' eliminada correctamente");
 };
 
 borrarTabla();
