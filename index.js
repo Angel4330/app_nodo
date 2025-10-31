@@ -2,6 +2,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const sqlite3 = require('sqlite3').verbose();
+require("./reset_db.js");
 
 //Documentación en https://expressjs.com/en/starter/hello-world.html
 const app = express()
@@ -18,22 +19,6 @@ let db = new sqlite3.Database('./base.sqlite3', (err) => {
     }
     console.log('Conectado a la base de datos SQLite.');
 
-
-  import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-
-const borrarTabla = async () => {
-  const db = await open({
-    filename: "base.sqlite3",
-    driver: sqlite3.Database
-  });
-  await db.exec("DROP TABLE IF EXISTS tareas;");
-  console.log("Tabla 'tareas' eliminada correctamente");
-};
-
-borrarTabla();
-
-
     db.run(`CREATE TABLE IF NOT EXISTS todos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         todo TEXT NOT NULL,
@@ -46,7 +31,6 @@ borrarTabla();
         }
     });
 });
-
 //Creamos un endpoint de login que recibe los datos como json
 app.post('/insert', jsonParser, function (req, res) {
     //Imprimimos el contenido del campo todo
