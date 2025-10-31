@@ -3,17 +3,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const sqlite3 = require('sqlite3').verbose();
 
-const borrarTabla = async () => {
-  const db = await open({
-    filename: "base.sqlite3",
-    driver: sqlite3.Database
-  });
-  await db.exec("DROP TABLE IF EXISTS todos;");
-  console.log("Tabla 'todos' eliminada correctamente");
-};
-
-borrarTabla();
-
 //Documentación en https://expressjs.com/en/starter/hello-world.html
 const app = express()
 
@@ -28,6 +17,22 @@ let db = new sqlite3.Database('./base.sqlite3', (err) => {
         console.error(err.message);
     }
     console.log('Conectado a la base de datos SQLite.');
+
+
+  import sqlite3 from "sqlite3";
+import { open } from "sqlite";
+
+const borrarTabla = async () => {
+  const db = await open({
+    filename: "base.sqlite3",
+    driver: sqlite3.Database
+  });
+  await db.exec("DROP TABLE IF EXISTS tareas;");
+  console.log("Tabla 'tareas' eliminada correctamente");
+};
+
+borrarTabla();
+
 
     db.run(`CREATE TABLE IF NOT EXISTS todos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
