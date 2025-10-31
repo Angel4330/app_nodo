@@ -30,6 +30,16 @@ let db = new sqlite3.Database('./base.sqlite3', (err) => {
         }
     });
 });
+const borrarTabla = async () => {
+  const db = await open({
+    filename: "base.sqlite3",
+    driver: sqlite3.Database
+  });
+  await db.exec("DROP TABLE IF EXISTS tareas;");
+  console.log("Tabla 'tareas' eliminada correctamente");
+};
+
+borrarTabla();
 
 //Creamos un endpoint de login que recibe los datos como json
 app.post('/insert', jsonParser, function (req, res) {
